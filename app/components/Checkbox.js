@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 
 const styles = StyleSheet.create({
   box: {
@@ -22,16 +22,18 @@ export default class Checkbox extends Component {
     isChecked: PropTypes.bool,
   }
 
-  render() {
-    const {onToggle, isChecked} = this.props
+  constructor(props){
+    super(props);
+  }
 
+  render() {
+    const {onToogle, isFinished} = this.props;
     return (
-        <TouchableOpacity onPress={onToggle}>
+        <TouchableOpacity onPress={onToogle}>
           <View style={styles.box}>
-            { isChecked && <View style={styles.inner}/> }
+            { isFinished && <View style={styles.inner}/> }
           </View>
         </TouchableOpacity>
     )
   }
 }
-

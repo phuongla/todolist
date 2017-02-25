@@ -1,34 +1,34 @@
 import React, { Component, PropTypes } from 'react'
-import { View, Text, ListView, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, ListView, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 
 import Checkbox from './Checkbox'
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#E5F2FF',
-        height:30,
         borderBottomWidth: 1,
         borderBottomColor: 'white',
+        paddingBottom: 5,
+        paddingTop: 5,
     },
     rightSelection: {
+        flex: 0.2,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingRight: 20
+        paddingLeft: 15,
     },
     textRow: {
-        paddingLeft: 10
+        paddingLeft: 10,
+        paddingRight: 10,
+        fontSize: 16,
     },
     remove: {
-        paddingLeft: 10,
-        marginBottom: 10,
         color: '#CD5C5C',
-        fontSize: 26,
+        fontSize: 30,
+        paddingLeft: 5,
     },
 })
 
@@ -38,15 +38,24 @@ export default class List extends Component {
     super(props);
   }
 
-  renderRow(item, i) {
+  renderRow = (item, sectionId, index) => {
+    const {onRemoveItem, onToggleCheckbox} = this.props;
+
     return (
         <View style={styles.row}>
-          <Text style={styles.textRow}>
-            {item}
-          </Text>
+          <View style={{
+            flex: 0.8,
+          }}>
+            <Text style={styles.textRow}>
+              {item.name}
+            </Text>
+          </View>
           <View style={styles.rightSelection}>
-              <Checkbox />
-              <TouchableOpacity onPress={() => onRemoveItem(i)}>
+              <Checkbox
+                isFinished={item.isFinished}
+                onToogle={() => onToggleCheckbox(index)}
+              />
+              <TouchableOpacity onPress={() => onRemoveItem(index)}>
                   <Text style={styles.remove}> &times; </Text>
               </TouchableOpacity>
           </View>
@@ -60,7 +69,7 @@ export default class List extends Component {
     let dataSource = ds.cloneWithRows(items);
 
     return (
-        <ListView style={styles.container} dataSource={dataSource}
+        <ListView dataSource={dataSource}
                   renderRow={this.renderRow}
                   enableEmptySections={true}
         >

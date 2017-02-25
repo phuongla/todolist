@@ -13,19 +13,18 @@ import List from '../components/List'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
   },
   header: {
-    flex: 0.18,
+    flex: 0.2,
   },
   body: {
-    flex: 0.77,
-    justifyContent: 'center',
+    flex: 0.75,
   },
   footer: {
     flex: 0.05,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingTop: 10,
   },
 })
 
@@ -45,7 +44,6 @@ class App extends Component {
   }
 
   onAddItem = (text) => {
-    console.log(this.props);
     const {dispatch} = this.props;
     dispatch(actionCreators.add(text));
   }
@@ -55,20 +53,34 @@ class App extends Component {
     dispatch(actionCreators.remove(index));
   }
 
+  onRemoveAllCompleted = () => {
+    const {dispatch} = this.props;
+    dispatch(actionCreators.removeAllCompleted());
+  }
+
+  onToggleCheckbox = (index) => {
+    const {dispatch} = this.props;
+    dispatch(actionCreators.toogleCheckbox(index));
+  }
+
   render() {
     const {items} = this.props;
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
+        <View>
           <Title />
           <Input onAddedItem={this.onAddItem}/>
         </View>
+
         <View style={styles.body}>
-          <List items={items}/>
+          <List items={items}
+            onRemoveItem={this.onRemoveItem}
+            onToggleCheckbox={this.onToggleCheckbox}
+          />
         </View>
         <View style={styles.footer}>
-          <Footer onRemoveCompletedItems={() => alert('Remove all completed')} />
+          <Footer onRemoveCompletedItems={this.onRemoveAllCompleted} />
         </View>
       </View>
     )

@@ -4,6 +4,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
     text: {
         color: 'red',
+        fontSize: 15,
     },
 })
 
